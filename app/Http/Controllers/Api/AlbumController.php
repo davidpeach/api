@@ -14,13 +14,13 @@ class AlbumController extends Controller
 {
     public function index(Request $request)
     {
-        // dd(Listen::load('song')->toSql());
+        // paginate
+        return Album::distinct()->select('title')->orderBy('title', 'ASC')->get();
+    	// $listens = Listen::with('song.album')
+     //        ->orderBy('listened_at', 'DESC')
+     //        ->limit($request->limit ?? 50);
 
-    	$listens = Listen::with('song.album')
-            ->orderBy('listened_at', 'DESC')
-            ->limit($request->limit ?? 50);
-
-        dd($listens->get()->groupBy('song.album.title'));
+     //    dd($listens->get()->groupBy('song.album.title'));
         // dd($listens->toSql());
 
     	// if ($request->has('from')) {
@@ -34,5 +34,11 @@ class AlbumController extends Controller
 
      //    return new ListenCollection($listens->get());
     }
+
+    public function latest()
+    {
+        //
+    }
+
 
 }
