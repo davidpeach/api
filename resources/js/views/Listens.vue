@@ -19,7 +19,7 @@
         },
 
         mounted: function() {
-            axios.get('/api/listens').then((response) => {
+            axios.get('/api/listens?group=date_grouped').then((response) => {
 
                 let dates = response.data.data;
 

@@ -19,9 +19,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::middleware([])->group(function () {
 
-    Route::get('albums', function () {
-        return \App\Album::latest()->limit(25)->get()->toArray();
-    });
+    // Route::get('albums', function () {
+    //     return \App\Album::latest()->limit(25)->get()->toArray();
+    // });
+    Route::get('albums-listened', 'Api\AlbumListenController@index');
 
     Route::get('artists', function () {
         return \App\Artist::latest()->limit(25)->get()->toArray();

@@ -1948,7 +1948,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   mounted: function mounted() {
     var _this = this;
 
-    axios.get('/api/listens').then(function (response) {
+    axios.get('/api/listens?group=date_grouped').then(function (response) {
       var dates = response.data.data;
 
       for (var _i = 0, _Object$entries = Object.entries(dates); _i < _Object$entries.length; _i++) {
