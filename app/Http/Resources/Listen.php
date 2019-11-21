@@ -15,7 +15,6 @@ class Listen extends JsonResource
      */
     public function toArray($request)
     {
-        Log::info($this->song->album->artist->name);
         return [
             'title' => $this->song->title,
             'album' => $this->song->album->title,
