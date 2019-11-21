@@ -6,7 +6,8 @@ let routes = [
         component: require('./views/Albums.vue').default
     },
     {
-        path: '/artists',
+        name: 'artist',
+        path: '/artists/:page*',
         component: require('./views/Artists.vue').default
     },
     {
@@ -16,5 +17,6 @@ let routes = [
 ];
 
 export default new VueRouter({
+    mode: 'history',
     routes
 });
