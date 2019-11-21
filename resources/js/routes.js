@@ -11,6 +11,7 @@ let routes = [
         component: require('./views/Artists.vue').default
     },
     {
+        name: 'listen',
         path: '/listens',
         component: require('./views/Listens.vue').default
     }

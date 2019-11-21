@@ -1959,14 +1959,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1982,29 +1979,56 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      listens: []
+      listens: [],
+      prevLink: null,
+      nextLink: null
     };
   },
   mounted: function mounted() {
-    var _this = this;
-
-    axios.get('/api/listens?group=date_grouped').then(function (response) {
-      var dates = response.data.data;
-
-      for (var _i = 0, _Object$entries = Object.entries(dates); _i < _Object$entries.length; _i++) {
-        var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
-            key = _Object$entries$_i[0],
-            songsbyDate = _Object$entries$_i[1];
-
-        for (var _i2 = 0, _Object$entries2 = Object.entries(songsbyDate); _i2 < _Object$entries2.length; _i2++) {
-          var _Object$entries2$_i = _slicedToArray(_Object$entries2[_i2], 2),
-              _key = _Object$entries2$_i[0],
-              listen = _Object$entries2$_i[1];
-
-          _this.listens.push(listen);
-        }
+    this.init(); // axios.get('/api/listens?group=date_grouped').then((response) => {
+    //     let dates = response.data.data;
+    //     for (let [key, songsbyDate] of Object.entries(dates)) {
+    //         for (let [key, listen] of Object.entries(songsbyDate)) {
+    //             this.listens.push(listen)
+    //         }
+    //     }
+    // })
+  },
+  methods: {
+    init: function init() {
+      if (this.$route.query.page === undefined) {
+        this.currentPage = 1;
+      } else {
+        this.currentPage = this.$route.query.page;
       }
-    });
+
+      this.loadListens('/api/listens?page=' + this.currentPage);
+    },
+    updatePage: function updatePage(link) {
+      var _this = this;
+
+      this.loadListens(link).then(function () {
+        _this.updateUrl();
+      });
+    },
+    loadListens: function loadListens(link) {
+      var _this2 = this;
+
+      return axios.get(link).then(function (response) {
+        _this2.listens = response.data.data;
+        _this2.prevLink = response.data.links.prev;
+        _this2.nextLink = response.data.links.next;
+        _this2.currentPage = response.data.meta.current_page;
+      });
+    },
+    updateUrl: function updateUrl() {
+      this.$router.push({
+        name: 'listen',
+        query: {
+          page: this.currentPage
+        }
+      });
+    }
   }
 });
 
@@ -2642,6 +2666,40 @@ var render = function() {
         }),
         0
       )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-footer" }, [
+      _vm.prevLink
+        ? _c(
+            "a",
+            {
+              attrs: { href: "" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.updatePage(_vm.prevLink)
+                }
+              }
+            },
+            [_vm._v("Prev")]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.nextLink
+        ? _c(
+            "a",
+            {
+              attrs: { href: "" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.updatePage(_vm.nextLink)
+                }
+              }
+            },
+            [_vm._v("Next")]
+          )
+        : _vm._e()
     ])
   ])
 }
@@ -17721,6 +17779,7 @@ var routes = [{
   path: '/artists/:page*',
   component: __webpack_require__(/*! ./views/Artists.vue */ "./resources/js/views/Artists.vue")["default"]
 }, {
+  name: 'listen',
   path: '/listens',
   component: __webpack_require__(/*! ./views/Listens.vue */ "./resources/js/views/Listens.vue")["default"]
 }];
