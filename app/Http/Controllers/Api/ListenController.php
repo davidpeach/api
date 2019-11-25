@@ -13,7 +13,7 @@ class ListenController extends Controller
 {
     public function index(Request $request)
     {
-    	$listens = Listen::select()->orderBy('listened_at', 'DESC')->limit($request->limit ?? 50);
+    	$listens = Listen::select()->orderBy('listened_at', 'DESC');
 
     	if ($request->has('from')) {
     		$from = new Carbon($request->from);
@@ -21,10 +21,10 @@ class ListenController extends Controller
     	}
 
         if ($request->group ?? 'order' === 'date_grouped') {
-            return new DateGroupListenCollection($listens->get());
+            return new DateGroupListenCollection($listens->paginate($request->limit ?? 30));
         }
 
-        return new ListenCollection($listens->get());
+        return new ListenCollection($listens->paginate($request->limit ?? 30));
     }
 
 }

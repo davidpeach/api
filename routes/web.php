@@ -15,6 +15,8 @@
 //     return view('home');
 // });
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::get('/{vue_capture?}', 'HomeController@index')->where('vue_capture', '[\/\w\.-]*');
+
+Route::get('*', 'HomeController@index')->name('home');
 Auth::routes();
 
