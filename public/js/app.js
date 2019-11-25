@@ -1852,19 +1852,57 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      albums: []
+      albums: [],
+      prevLink: null,
+      nextLink: null
     };
   },
   mounted: function mounted() {
-    var _this = this;
+    this.init();
+  },
+  methods: {
+    init: function init() {
+      if (this.$route.query.page === undefined) {
+        this.currentPage = 1;
+      } else {
+        this.currentPage = this.$route.query.page;
+      }
 
-    axios.get('/api/albums').then(function (response) {
-      _this.albums = response.data;
-      console.log(_this.albums);
-    });
+      this.loadArtists('/api/albums?page=' + this.currentPage);
+    },
+    updatePage: function updatePage(link) {
+      var _this = this;
+
+      this.loadArtists(link).then(function () {
+        _this.updateUrl();
+      });
+    },
+    loadArtists: function loadArtists(link) {
+      var _this2 = this;
+
+      return axios.get(link).then(function (response) {
+        _this2.albums = response.data.data;
+        _this2.prevLink = response.data.links.prev;
+        _this2.nextLink = response.data.links.next;
+        _this2.currentPage = response.data.meta.current_page;
+      });
+    },
+    updateUrl: function updateUrl() {
+      this.$router.push({
+        name: 'album',
+        query: {
+          page: this.currentPage
+        }
+      });
+    }
   }
 });
 
@@ -1985,14 +2023,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    this.init(); // axios.get('/api/listens?group=date_grouped').then((response) => {
-    //     let dates = response.data.data;
-    //     for (let [key, songsbyDate] of Object.entries(dates)) {
-    //         for (let [key, listen] of Object.entries(songsbyDate)) {
-    //             this.listens.push(listen)
-    //         }
-    //     }
-    // })
+    this.init();
   },
   methods: {
     init: function init() {
@@ -2548,12 +2579,46 @@ var render = function() {
         _vm._l(_vm.albums, function(album) {
           return _c("li", {
             domProps: {
-              textContent: _vm._s(album.title + " by " + album.artist.name)
+              textContent: _vm._s(album.title + " by " + album.artist)
             }
           })
         }),
         0
       )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-footer" }, [
+      _vm.prevLink
+        ? _c(
+            "a",
+            {
+              attrs: { href: "" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.updatePage(_vm.prevLink)
+                }
+              }
+            },
+            [_vm._v("Prev")]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.nextLink
+        ? _c(
+            "a",
+            {
+              attrs: { href: "" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.updatePage(_vm.nextLink)
+                }
+              }
+            },
+            [_vm._v("Next")]
+          )
+        : _vm._e()
     ])
   ])
 }
@@ -17720,7 +17785,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _routes_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./routes.js */ "./resources/js/routes.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
- //Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 new Vue({
   el: '#app',
@@ -17772,6 +17836,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 
 var routes = [{
+  name: 'album',
   path: '/albums',
   component: __webpack_require__(/*! ./views/Albums.vue */ "./resources/js/views/Albums.vue")["default"]
 }, {
