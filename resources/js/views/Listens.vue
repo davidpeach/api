@@ -27,18 +27,6 @@
 
         mounted: function() {
             this.init();
-            // axios.get('/api/listens?group=date_grouped').then((response) => {
-
-            //     let dates = response.data.data;
-
-            //     for (let [key, songsbyDate] of Object.entries(dates)) {
-
-            //         for (let [key, listen] of Object.entries(songsbyDate)) {
-            //             this.listens.push(listen)
-            //         }
-
-            //     }
-            // })
         },
 
         methods: {
