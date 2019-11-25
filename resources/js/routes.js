@@ -2,6 +2,7 @@ import VueRouter from 'vue-router';
 
 let routes = [
     {
+        name: 'album',
         path: '/albums',
         component: require('./views/Albums.vue').default
     },
