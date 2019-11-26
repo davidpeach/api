@@ -2033,7 +2033,7 @@ __webpack_require__.r(__webpack_exports__);
         this.currentPage = this.$route.query.page;
       }
 
-      this.loadListens('/api/listens?page=' + this.currentPage);
+      this.loadListens(window.apiDomain + '/api/listens?page=' + this.currentPage);
     },
     updatePage: function updatePage(link) {
       var _this = this;
@@ -17815,6 +17815,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
 window.axios = axios__WEBPACK_IMPORTED_MODULE_2___default.a;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 var token = document.head.querySelector('meta[name="csrf-token"]');
+var apiDomain = document.head.querySelector('meta[name="api-domain"]');
 
 if (token) {
   window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
