@@ -37,7 +37,7 @@
                     this.currentPage = this.$route.query.page;
                 }
 
-                this.loadListens('/api/listens?page=' + this.currentPage);
+                this.loadListens(window.apiDomain + '/api/listens?page=' + this.currentPage);
             },
 
             updatePage(link) {
