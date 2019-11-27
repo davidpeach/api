@@ -67,11 +67,11 @@
         <div class="flex-center position-ref full-height">
             <div class="content">
                 <div class="title m-b-md">
-                    David Peach's Listens.
+                    David Peach's API.
                 </div>
 
                 <div class="links">
-                    <a href="https://laravel.com/docs">David Peach's Site</a>
+                    <a href="https://davidpeach.co.uk">David Peach's Site</a>
                 </div>
             </div>
         </div>
