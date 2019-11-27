@@ -1,4 +1,12 @@
-# scrobbles-importer
+# API - My own API for external services
+
+**Brief Introduction**: This API codebase is my way of pulling in external services for using in my own website. For Example, I wanted a way to display recent songs I'd listened to, so built an importer to pull in my LAST.FM scrobbles and normalise the data. I then built a microsite for displaying that info on my website.
+
+I will be writing up a full explanation for this some time soon.
+
+Future things I will be adding to this API is an importer for trophies I earn on PSN (PlayStation 3 and 4). And then API endpoints to pull that data in.
+
+## 1 :: Last FM Scrobbles Importer
 Import your scrobbles into a Laravel codebase.
 
 **Please Note**: This is a personal itch that I wanted to scratch and is not meant to be a fully-fledged thing out of the box. It will import your scrobbles a bit at a time and keep them in a database. The database structure is just one I decided for myself - feel free to edit things for your own needs. 200 is the maximum number of scrobbles that can be imported per API request, which is a limit of the Last.FM API.
@@ -8,7 +16,7 @@ This currently only supports importing public scrobbles from a Last.FM account.
 
 No Authentication with Last.FM is needed.
 
-## Required Environment Variables
+### Required Environment Variables
 `LASTFM_API_KEY`: Your own Last.FM API Key
 
 `LASTFM_API_SECRET`: Your own Last.FM API Secret
@@ -19,7 +27,7 @@ No Authentication with Last.FM is needed.
 
 `SCROBBLE_BACKDATE`: [TRUE|FALSE]: Whether to Import your past scrobbles first. Switch back to false when backdating is done in order to run the importer as normal.
 
-## Getting up and running
+### Getting up and running
 
 1. Place this code on a server of your choice
 2. Run the migrations
